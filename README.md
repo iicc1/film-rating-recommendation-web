@@ -1,4 +1,6 @@
-# film-rating-recommendation
+# Film Rating Recommendation
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/71b847e3-f733-4162-9f36-dabeb1e2b7f3/deploy-status)](https://app.netlify.com/sites/nostalgic-villani-937281/deploys)
 
 ## Project setup
 ```
