@@ -10,7 +10,7 @@
       overflow
     >
       <v-list dense> 
-        <v-list-item link to='/'>
+        <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-library-video</v-icon>
           </v-list-item-action>
@@ -18,7 +18,7 @@
             <v-list-item-title>Films</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to='/account'>
+        <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-account-circle</v-icon>
           </v-list-item-action>
@@ -26,7 +26,7 @@
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to='/about'>
+        <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-information-outline</v-icon>
           </v-list-item-action>
@@ -45,18 +45,13 @@
     >
       <v-toolbar-title>
         <v-icon>mdi-video-vintage </v-icon>
-        Film Rating Recommendation 
-      </v-toolbar-title>
-      <v-col class="text-right">
-        <v-icon>mdi-login</v-icon>
-      </v-col>
-      
+        Film Rating Recommendation
+        </v-toolbar-title>
     </v-app-bar>
 
     <v-content>
-      <router-view/>
+      
     </v-content>
-    
     <v-footer
       color="magenta"
       app
@@ -67,9 +62,8 @@
 </template>
 
 <script>
-
-export default {
-  name: 'App',
+  export default {
+    name: 'Layout',
     props: {
       source: String,
     },
@@ -80,5 +74,5 @@ export default {
     created () {
       this.$vuetify.theme.dark = true
     },
-};
+  }
 </script>
