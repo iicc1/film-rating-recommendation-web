@@ -1,5 +1,16 @@
 <template>
   <v-container class="my-5">
+    <v-text-field
+        hide-details
+        label="Search"
+        prepend-inner-icon="mdi-magnify"
+        solo-inverted
+        append-icon="mdi-dots-vertical"
+      >
+
+      </v-text-field>
+      
+
     <v-layout row wrap>
       <v-flex xs9 sm4 md3 lg2 v-for="person in team" :key="person.name">
         <v-card raised class="text-xs-center ma-3">
@@ -52,6 +63,29 @@ export default {
         { name: 'The Net Ninja', role: 'Web developer' },
         { name: 'Ryu', role: 'Graphic designer' },
         { name: 'Chun Li', role: 'Web developer' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
+        { name: 'Gouken', role: 'Social media maverick' },
         { name: 'Gouken', role: 'Social media maverick' },
         { name: 'Yoshi', role: 'Sales guru'}
 

@@ -47,15 +47,9 @@
         <v-icon>mdi-video-vintage</v-icon>
         Film Rating Recommendation 
       </v-toolbar-title>
-      <v-text-field
-        class="mx-4"
-        flat
-        hide-details
-        label="Search"
-        prepend-inner-icon="mdi-search"
-        solo-inverted
-      ></v-text-field>
-      <v-col class="text-right">
+      
+      <v-col class="text-right font-weight-medium">
+        Login / Register
         <v-btn text icon @click.stop="dialog = true">
           <v-icon>mdi-login</v-icon>
         </v-btn>
@@ -67,16 +61,17 @@
       <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Login</span>
+          <v-icon>mdi-account</v-icon>
+          <span class="headline ml-3">Login</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Username*" required></v-text-field>
+                <v-text-field label="Username*" required clearable></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Password*" type="password" required></v-text-field>
+                <v-text-field label="Password*" type="password" required counter></v-text-field>
               </v-col>
 
             </v-row>
@@ -95,19 +90,20 @@
     <v-dialog v-model="dialog_register" max-width="600px">
       <v-card>
         <v-card-title>
-          <span class="headline">Register</span>
+          <v-icon>mdi-account-plus</v-icon>
+          <span class="headline  ml-3">Register</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Username*" required prepend-icon="mdi-account"></v-text-field>
+                <v-text-field label="Username*" required clearable></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Password*" type="password" required prepend-icon="mdi-lock"></v-text-field>
+                <v-text-field label="Password*" type="password" required counter></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Repeat password*" type="password" required prepend-icon="mdi-lock"></v-text-field>
+                <v-text-field label="Repeat password*" type="password" required counter></v-text-field>
               </v-col>
             </v-row>
           </v-container>
