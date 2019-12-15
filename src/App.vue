@@ -44,16 +44,82 @@
       dark
     >
       <v-toolbar-title>
-        <v-icon>mdi-video-vintage </v-icon>
+        <v-icon>mdi-video-vintage</v-icon>
         Film Rating Recommendation 
       </v-toolbar-title>
+      <v-text-field
+        class="mx-4"
+        flat
+        hide-details
+        label="Search"
+        prepend-inner-icon="mdi-search"
+        solo-inverted
+      ></v-text-field>
       <v-col class="text-right">
-        <v-icon>mdi-login</v-icon>
+        <v-btn text icon @click.stop="dialog = true">
+          <v-icon>mdi-login</v-icon>
+        </v-btn>
       </v-col>
       
     </v-app-bar>
 
     <v-content>
+      <v-dialog v-model="dialog" max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Login</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field label="Username*" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Password*" type="password" required></v-text-field>
+              </v-col>
+
+            </v-row>
+          </v-container>
+          <small>* required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false, dialog_register = true">Register</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">Login</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialog_register" max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Register</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field label="Username*" required prepend-icon="mdi-account"></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Password*" type="password" required prepend-icon="mdi-lock"></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Repeat password*" type="password" required prepend-icon="mdi-lock"></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>* required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="dialog_register = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog_register = false">Register</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
       <router-view/>
     </v-content>
     
@@ -61,7 +127,7 @@
       color="magenta"
       app
     >
-      <span class="white--text">&copy; Universidad Politécnica de Cartagena 2020</span>
+      <span class="white--text">&copy; Ignacio & José 2020</span>
     </v-footer>
   </v-app>
 </template>
@@ -76,6 +142,8 @@ export default {
 
     data: () => ({
       drawer: null,
+      dialog: false,
+      dialog_register: false,
     }),
     created () {
       this.$vuetify.theme.dark = true
