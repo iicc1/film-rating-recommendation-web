@@ -12,7 +12,7 @@
       
 
     <v-layout row wrap>
-      <v-flex xs9 sm4 md3 lg2 v-for="person in team" :key="person.name">
+      <v-flex xs12 sm4 md3 lg2 v-for="person in team" :key="person.name">
         <v-card raised class="text-xs-center ma-3">
           <v-img src="https://www.elindependiente.com/wp-content/uploads/2019/09/zentauroepp47949887-mas-periodico-serie-chernobyl-hbo190503115003-1556877153367.jpg" height="200px"></v-img>
 

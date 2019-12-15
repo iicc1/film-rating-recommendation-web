@@ -49,7 +49,7 @@
       </v-toolbar-title>
       
       <v-col class="text-right font-weight-medium">
-        Login / Register
+        Login
         <v-btn text icon @click.stop="dialog = true">
           <v-icon>mdi-login</v-icon>
         </v-btn>
