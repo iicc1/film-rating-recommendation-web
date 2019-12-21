@@ -2,10 +2,10 @@
   <v-app>
     <v-navigation-drawer
       v-model="drawer"
-      clipped="true"
-      floating="true"
-      mini-variant="true"
-      permanent=true
+      clipped
+      floating
+      mini-variant
+      permanent
       app
       overflow
     >
@@ -40,7 +40,7 @@
     <v-app-bar
       app
       color="black"
-      clipped-left="true"
+      clipped-left
       dark
     >
       <v-toolbar-title>
@@ -68,10 +68,10 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Username*" required clearable></v-text-field>
+                <v-text-field label="Name *" required clearable></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Password*" type="password" required counter></v-text-field>
+                <v-text-field label="Password *" type="password" required counter></v-text-field>
               </v-col>
 
             </v-row>
@@ -97,13 +97,33 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Username*" required clearable></v-text-field>
+                <v-text-field label="Name *" required clearable></v-text-field>
+              </v-col>
+              <v-col cols="12" style="margin-bottom: -10px">
+                <v-slider
+                  color="purple"
+                  label="Age *"
+                  min="1"
+                  max="120"
+                  required
+                ></v-slider>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Password*" type="password" required counter></v-text-field>
+                <v-select
+                  :items="genders"
+                  color="purple"
+                  label="Gender *"
+                  required
+              ></v-select>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Repeat password*" type="password" required counter></v-text-field>
+                <v-text-field label="Occupation *" required clearable></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Password *" type="password" required counter></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field label="Repeat password *" type="password" required counter></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -111,8 +131,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog_register = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog_register = false">Register</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog_register = false">CLOSE</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog_register = false">REGISTER</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -140,6 +160,7 @@ export default {
       drawer: null,
       dialog: false,
       dialog_register: false,
+      genders: ['Male', 'Female']
     }),
     created () {
       this.$vuetify.theme.dark = true

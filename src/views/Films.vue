@@ -12,22 +12,36 @@
       
 
     <v-layout row wrap>
-      <v-flex xs12 sm4 md3 lg2 v-for="person in team" :key="person.name">
+      <v-flex xs12 sm4 md3 lg2 v-for="film in films" :key="film.id">
         <v-card raised class="text-xs-center ma-3">
-          <v-img src="https://www.elindependiente.com/wp-content/uploads/2019/09/zentauroepp47949887-mas-periodico-serie-chernobyl-hbo190503115003-1556877153367.jpg" height="200px"></v-img>
+          <v-img :src="getImgUrl(film.url_pic)" height="200px"></v-img>
 
           <v-card-title>
-            Chernobyl (miniseries)
+            {{ film.title }}
           </v-card-title>
-
           <v-card-subtitle>
-            Drama
+            <br>
+            <v-row>
+              <v-col style="margin: 8px">
+                {{ rating }}
+            </v-col>
+              <v-col>
+              <v-rating
+                v-model="rating"
+                background-color="purple lighten-3"
+                color="purple"
+                half-increments
+                hover
+                size="20"
+              ></v-rating>
+            </v-col>
+            </v-row>
           </v-card-subtitle>
 
           <v-card-actions>
-            <v-btn text>Share</v-btn>
-            <v-btn color="purple" text>
-              Explore
+            <v-btn text>Explore</v-btn>
+            <v-btn color="purple" text link :href="film.url_imdb" target="_blank">
+              IMDB
             </v-btn>
 
             <v-spacer></v-spacer>
@@ -41,7 +55,8 @@
             <div v-show="show">
               <v-divider></v-divider>
               <v-card-text>
-                In April 1986, an explosion at the Chernobyl nuclear power plant in the Union of Soviet Socialist Republics becomes one of the world's worst man-made catastrophes. 
+                {{ film.desc }}
+                Premiere: {{ film.date }}
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -59,37 +74,33 @@ export default {
   data() {
     return {
       show: false,
-      team: [
-        { name: 'The Net Ninja', role: 'Web developer' },
-        { name: 'Ryu', role: 'Graphic designer' },
-        { name: 'Chun Li', role: 'Web developer' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Gouken', role: 'Social media maverick' },
-        { name: 'Yoshi', role: 'Sales guru'}
+      isActive: false,
+      rating: 4.5,
+      films: []
+    }
+  },
+  mounted: async function () {
+    const res = await fetch("http://localhost/example/films.php");
+    let films = await res.json();
+    this.films = films[0];
+    //this.films = [{"id":"1","title":"Toy Story (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?Toy%20Story%20(1995)","url_pic":"MV5BMTgwMjI4MzU5N15BMl5BanBnXkFtZTcwMTMyNTk3OA@@._V1_SX300.jpg","desc":"A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room."},{"id":"2","title":"GoldenEye (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?GoldenEye%20(1995)","url_pic":"MV5BMzk2OTg4MTk1NF5BMl5BanBnXkFtZTcwNjExNTgzNA@@._V1_SX300.jpg","desc":"James Bond teams up with the lone survivor of a destroyed Russian research center to stop the hijacking of a nuclear space weapon by a fellow agent believed to be dead."},{"id":"3","title":"Four Rooms (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?Four%20Rooms%20(1995)","url_pic":"MV5BMTQwOTMzNjA0Nl5BMl5BanBnXkFtZTcwMjgzNTUyMQ@@._V1_SX300.jpg","desc":"Four interlocking tales that take place in a fading hotel on New Year's Eve."}]
+    // mas de 25 caracters, poner "..."
+    // Regex that removes the date from the title
+    for (let i in this.films) {
+      //this.films[i].title = this.films[i].title.replace(/\(\d+\)/g, '')
+      //if (i > 10) this.films.pop();
+      //this.films[i].date = this.films[i].date.match('d+')
+      this.films[i].title = this.films[i].title.substring(0, 23)
+    }
 
-      ]
+  },
+  methods: {
+    getImgUrl(image) {
+      try {
+        return require('../images/' + image)
+      } catch (e) {
+          e.name
+      }
     }
   }
 };
