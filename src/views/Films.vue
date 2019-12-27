@@ -80,7 +80,7 @@ export default {
     }
   },
   mounted: async function () {
-    const res = await fetch("http://localhost/example/films.php");
+    const res = await fetch("http://localhost/api/films.php");
     let films = await res.json();
     this.films = films[0];
     //this.films = [{"id":"1","title":"Toy Story (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?Toy%20Story%20(1995)","url_pic":"MV5BMTgwMjI4MzU5N15BMl5BanBnXkFtZTcwMTMyNTk3OA@@._V1_SX300.jpg","desc":"A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room."},{"id":"2","title":"GoldenEye (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?GoldenEye%20(1995)","url_pic":"MV5BMzk2OTg4MTk1NF5BMl5BanBnXkFtZTcwNjExNTgzNA@@._V1_SX300.jpg","desc":"James Bond teams up with the lone survivor of a destroyed Russian research center to stop the hijacking of a nuclear space weapon by a fellow agent believed to be dead."},{"id":"3","title":"Four Rooms (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?Four%20Rooms%20(1995)","url_pic":"MV5BMTQwOTMzNjA0Nl5BMl5BanBnXkFtZTcwMjgzNTUyMQ@@._V1_SX300.jpg","desc":"Four interlocking tales that take place in a fading hotel on New Year's Eve."}]

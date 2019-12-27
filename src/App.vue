@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawer"
       clipped
       floating
       mini-variant
@@ -49,8 +48,10 @@
       </v-toolbar-title>
       
       <v-col class="text-right font-weight-medium">
-        Login
-        <v-btn text icon @click.stop="dialog = true">
+        <v-btn text icon @click.stop="login_form_show=true" style="margin-right:20px">
+          <div style="margin-right:10px">
+            Login
+          </div>
           <v-icon>mdi-login</v-icon>
         </v-btn>
       </v-col>
@@ -58,7 +59,7 @@
     </v-app-bar>
 
     <v-content>
-      <v-dialog v-model="dialog" max-width="600px">
+      <v-dialog v-model="login_form_show" max-width="600px">
       <v-card>
         <v-card-title>
           <v-icon>mdi-account</v-icon>
@@ -68,26 +69,25 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Name *" required clearable></v-text-field>
+                <v-text-field label="Name *" required clearable v-model="login_form_name"></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Password *" type="password" required counter></v-text-field>
+                <v-text-field label="Password *" type="password" required counter v-model="login_form_password"></v-text-field>
               </v-col>
-
             </v-row>
           </v-container>
           <small>* required field</small>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false, dialog_register = true">Register</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Login</v-btn>
+          <v-btn color="blue darken-1" text @click="login_form_show=false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="login_form_show=false, register_form_show=true">Register</v-btn>
+          <v-btn color="blue darken-1" text @click="login_form_show=false, login()">Login</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialog_register" max-width="600px">
+    <v-dialog v-model="register_form_show" max-width="600px">
       <v-card>
         <v-card-title>
           <v-icon>mdi-account-plus</v-icon>
@@ -97,7 +97,7 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <v-text-field label="Name *" required clearable></v-text-field>
+                <v-text-field label="Name *" required clearable v-model="register_form_name"></v-text-field>
               </v-col>
               <v-col cols="12" style="margin-bottom: -10px">
                 <v-slider
@@ -106,6 +106,8 @@
                   min="1"
                   max="120"
                   required
+                  thumb-label="always"
+                  v-model="register_form_age"
                 ></v-slider>
               </v-col>
               <v-col cols="12">
@@ -114,16 +116,17 @@
                   color="purple"
                   label="Gender *"
                   required
+                  v-model="register_form_gender"
               ></v-select>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Occupation *" required clearable></v-text-field>
+                <v-text-field label="Occupation *" required clearable v-model="register_form_occupation"></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Password *" type="password" required counter></v-text-field>
+                <v-text-field label="Password *" type="password" required counter v-model="register_form_password1"></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Repeat password *" type="password" required counter></v-text-field>
+                <v-text-field label="Repeat password *" type="password" required counter v-model="register_form_password2"></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -131,8 +134,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog_register = false">CLOSE</v-btn>
-          <v-btn color="blue darken-1" text @click="dialog_register = false">REGISTER</v-btn>
+          <v-btn color="blue darken-1" text @click="register_form_show=false">CLOSE</v-btn>
+          <v-btn color="blue darken-1" text @click="register_form_show=false, register()">REGISTER</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -145,6 +148,14 @@
     >
       <span class="white--text">&copy; Ignacio & José 2020</span>
     </v-footer>
+    <v-snackbar
+      v-model="snackbar_show"
+      :color="snackbar_color"
+      top
+    >
+    <v-icon>{{ snackbar_icon }}</v-icon> 
+      {{ snackbar_text }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -155,15 +166,83 @@ export default {
     props: {
       source: String,
     },
-
     data: () => ({
-      drawer: null,
-      dialog: false,
-      dialog_register: false,
-      genders: ['Male', 'Female']
+      // Javascript can't watch for object properties changes
+      // thats why objects are not used here
+      login_form_show: false,   
+      login_form_name: null,
+      login_form_password: null,  
+
+      register_form_show: false,
+      register_form_name: null,
+      register_form_age: null,
+      register_form_gender: null,
+      register_form_occupation: null,
+      register_form_password1: null,
+      register_form_password2: null,
+
+      snackbar_show: false,
+      snackbar_color: null,
+      snackbar_text: null,
+      snackbar_icon: null,
+
+      genders: ['Male', 'Female'],
+      
     }),
     created () {
       this.$vuetify.theme.dark = true
     },
+    methods: {
+      async login() {
+        // eslint-disable-next-line no-console
+        let res = await fetch("http://localhost/api/login.php", {
+        method: "POST",
+        body: JSON.stringify({
+          name: this.login_form_name,
+          password: this.login_form_password
+        })
+      });
+      res = await res.json();
+      // eslint-disable-next-line no-console
+      console.log(res)
+      if (res.status == true) {
+        this.snackbar_color = "success";
+        this.snackbar_text = "Success: you are now logged in."
+        this.snackbar_icon = "mdi_check"
+      } else {
+        this.snackbar_color = "error";
+        this.snackbar_text = "Error: invalid name or password."
+        this.snackbar_icon = "mdi-alert-circle"
+      }
+      this.snackbar_show = true;
+    }, async register() {
+        // eslint-disable-next-line no-console
+        console.log(this.register_form_name)
+        let res = await fetch("http://localhost/api/register.php", {
+        method: "POST",
+        body: JSON.stringify({
+          name: this.register_form_name,
+          age: this.register_form_age,
+          gender: this.register_form_gender,
+          occupation: this.register_form_occupation,
+          password1: this.register_form_password1,
+          password2: this.register_form_password2
+        })
+      });
+      res = await res.json();
+      // eslint-disable-next-line no-console
+      console.log(res)
+      if (res.status == true) {
+        this.snackbar_color = "success";
+        this.snackbar_text = "Success: you are now registered. Now you can login."
+        this.snackbar_icon = "mdi_check"
+      } else {
+        this.snackbar_color = "error";
+        this.snackbar_text = "Error: missing fields in the register form."
+        this.snackbar_icon = "mdi-alert-circle"
+      }
+      this.snackbar_show = true;
+    }
+  }
 };
 </script>
