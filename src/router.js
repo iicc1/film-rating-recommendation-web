@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Films from './views/Films.vue'
 import Film from './views/Film.vue'
-import Account from './views/Account.vue'
+import Profile from './views/Profile.vue'
 import About from './views/About.vue'
 
 Vue.use(Router)
@@ -22,9 +22,9 @@ export default new Router({
       component: Film
     },
     {
-      path: '/account',
-      name: 'account',
-      component: Account
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     },
     {
       path: '/about',

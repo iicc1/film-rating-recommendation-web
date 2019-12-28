@@ -17,12 +17,12 @@
             <v-list-item-title>Films</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link to='/account'>
+        <v-list-item link to='/profile'>
           <v-list-item-action>
             <v-icon>mdi-account-circle</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Account</v-list-item-title>
+            <v-list-item-title>Profile</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link to='/about'>
@@ -120,7 +120,13 @@
               ></v-select>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Occupation *" required clearable v-model="register_form_occupation"></v-text-field>
+                <v-select
+                  :items="occupations"
+                  color="purple"
+                  label="Occupation *"
+                  required
+                  v-model="register_form_occupation"
+              ></v-select>
               </v-col>
               <v-col cols="12">
                 <v-text-field label="Password *" type="password" required counter v-model="register_form_password1"></v-text-field>
@@ -160,6 +166,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-console
 
 export default {
   name: 'App',
@@ -168,7 +175,7 @@ export default {
     },
     data: () => ({
       // Javascript can't watch for object properties changes
-      // thats why objects are not used here
+      // thats why objects are not used here with two way binding
       login_form_show: false,   
       login_form_name: null,
       login_form_password: null,  
@@ -187,6 +194,7 @@ export default {
       snackbar_icon: null,
 
       genders: ['Male', 'Female'],
+      occupations: ['administrator','artist','doctor','educator','engineer','entertainment','executive','healthcare','homemaker','lawyer','librarian','marketing','none','other','programmer','retired','salesman','scientist','student','technician','writer']
       
     }),
     created () {
@@ -194,21 +202,19 @@ export default {
     },
     methods: {
       async login() {
-        // eslint-disable-next-line no-console
         let res = await fetch("http://localhost/api/login.php", {
         method: "POST",
+        credentials: 'include',
         body: JSON.stringify({
           name: this.login_form_name,
           password: this.login_form_password
-        })
+        }),
       });
       res = await res.json();
-      // eslint-disable-next-line no-console
-      console.log(res)
       if (res.status == true) {
         this.snackbar_color = "success";
         this.snackbar_text = "Success: you are now logged in."
-        this.snackbar_icon = "mdi_check"
+        this.snackbar_icon = "mdi-check"
       } else {
         this.snackbar_color = "error";
         this.snackbar_text = "Error: invalid name or password."
@@ -216,8 +222,6 @@ export default {
       }
       this.snackbar_show = true;
     }, async register() {
-        // eslint-disable-next-line no-console
-        console.log(this.register_form_name)
         let res = await fetch("http://localhost/api/register.php", {
         method: "POST",
         body: JSON.stringify({
@@ -230,15 +234,13 @@ export default {
         })
       });
       res = await res.json();
-      // eslint-disable-next-line no-console
-      console.log(res)
       if (res.status == true) {
         this.snackbar_color = "success";
-        this.snackbar_text = "Success: you are now registered. Now you can login."
-        this.snackbar_icon = "mdi_check"
+        this.snackbar_text = "Register success: now you can login with your account."
+        this.snackbar_icon = "mdi-check"
       } else {
         this.snackbar_color = "error";
-        this.snackbar_text = "Error: missing fields in the register form."
+        this.snackbar_text = "Error: there are missing fields in the register form."
         this.snackbar_icon = "mdi-alert-circle"
       }
       this.snackbar_show = true;
