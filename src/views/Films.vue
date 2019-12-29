@@ -79,7 +79,7 @@ export default {
       films: []
     }
   },
-  mounted: async function () {
+  async mounted () {
     const res = await fetch("http://localhost/api/films.php");
     let films = await res.json();
     this.films = films[0];
@@ -97,7 +97,7 @@ export default {
   methods: {
     getImgUrl(image) {
       try {
-        return require('../images/' + image)
+        return require('../images/films/' + image)
       } catch (e) {
           e.name
       }
