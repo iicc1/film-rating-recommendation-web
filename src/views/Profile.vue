@@ -16,7 +16,7 @@
       style="max-width: 300px"
       
       ></v-file-input>
-      <v-btn @click="getall">
+      <v-btn>
         Update photo
       </v-btn>
 
@@ -109,18 +109,22 @@
         this.profile_form_pic = res.pic;
     },
     methods: {
-      async getall() {
-        let res = await fetch("http://localhost/api/profile.php", {
-          credentials: 'include'
+      async update() {
+        let res = await fetch("http://localhost/api/update.php", {
+          method: "POST",
+          credentials: 'include',
+          body: JSON.stringify({
+            pic: this.profile_form_pic,
+            age: this.profile_form_age,
+            gender: this.profile_form_gender,
+            occupation: this.profile_form_occupation,
+            password1: this.profile_form_password1,
+            password2: this.profile_form_password2
+          })
         })
         res = await res.json();
         // eslint-disable-next-line no-console
         console.log(res)
-        this.profile_form_name = res.name;
-        this.profile_form_age = res.edad;
-        this.profile_form_gender = res.sex;
-        this.profile_form_occupation = res.ocupacion;
-        this.profile_form_pic = res.pic;
       }
     }
   }

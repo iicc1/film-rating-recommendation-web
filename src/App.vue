@@ -17,6 +17,14 @@
             <v-list-item-title>Films</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item link to='/recommended'>
+          <v-list-item-action>
+            <v-icon>mdi-lightbulb-on</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Recommended</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item link to='/profile'>
           <v-list-item-action>
             <v-icon>mdi-account-circle</v-icon>
