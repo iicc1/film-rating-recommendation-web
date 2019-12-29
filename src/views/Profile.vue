@@ -9,14 +9,16 @@
 
 
       <v-file-input
-      :rules="rules"
-      accept="image/png, image/jpeg, image/bmp"
-      placeholder="Upload profile photo"
-      prepend-icon="mdi-camera"
-      style="max-width: 300px"
-      
+        :rules="rules"
+        accept="image/png, image/jpeg, image/bmp"
+        placeholder="Upload profile photo"
+        prepend-icon="mdi-camera"
+        style="max-width: 300px"
+        chips
+        show-size
+        v-model="profile_form_pic"
       ></v-file-input>
-      <v-btn>
+      <v-btn @click="test">
         Update photo
       </v-btn>
 
@@ -123,6 +125,21 @@
           })
         })
         res = await res.json();
+        // eslint-disable-next-line no-console
+        console.log(res)
+      },
+      async test() {
+        let formData = new FormData();
+        formData.append('image', this.profile_form_pic, this.profile_form_pic.name);
+        // eslint-disable-next-line no-console
+        console.log(this.profile_form_pic)
+        // eslint-disable-next-line no-console
+        console.log(formData)
+        let res = await fetch("http://localhost/api/upload.php", {
+          method: "POST",
+          body: formData
+        })
+        
         // eslint-disable-next-line no-console
         console.log(res)
       }
