@@ -63,7 +63,6 @@
           <v-icon>mdi-login</v-icon>
         </v-btn>
       </v-col>
-      
     </v-app-bar>
 
     <v-content>

@@ -1,4 +1,5 @@
 <template>
+
   <v-container class="my-5">
     <v-text-field
         hide-details
@@ -7,14 +8,16 @@
         solo-inverted
         append-icon="mdi-dots-vertical"
       >
-
       </v-text-field>
-      
 
     <v-layout row wrap>
+      
+
       <v-flex xs12 sm4 md3 lg2 v-for="film in films" :key="film.id">
         <v-card raised class="text-xs-center ma-3">
-          <v-img :src="getImgUrl(film.url_pic)" height="200px"></v-img>
+          <router-link :to="'/film?id=' + film.id">
+            <v-img :src="getImgUrl(film.url_pic)" height="200px"></v-img>
+          </router-link>
 
           <v-card-title>
             {{ film.title }}
@@ -46,13 +49,13 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn icon @click="show = !show">
-              <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+            <v-btn icon @click="show_description=!show_description; show_description_id=film.id">
+              <v-icon>{{ show_description && show_description_id==film.id ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             </v-btn>
-          </v-card-actions>
 
+          </v-card-actions>
           <v-expand-transition>
-            <div v-show="show">
+            <div v-show="show_description && show_description_id==film.id">
               <v-divider></v-divider>
               <v-card-text>
                 {{ film.desc }}
@@ -61,6 +64,7 @@
             </div>
           </v-expand-transition>
         </v-card>
+        
      </v-flex>
     </v-layout>
   </v-container>
@@ -73,7 +77,8 @@ export default {
 
   data() {
     return {
-      show: false,
+      show_description: false,
+      show_description_id: null,
       isActive: false,
       rating: 4.5,
       films: []
@@ -101,7 +106,7 @@ export default {
       } catch (e) {
           e.name
       }
-    }
+    },
   }
 };
 </script>
