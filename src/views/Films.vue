@@ -74,16 +74,13 @@
 
 export default {
   name: 'Films',
-
-  data() {
-    return {
-      show_description: false,
-      show_description_id: null,
-      isActive: false,
-      rating: 4.5,
-      films: []
-    }
-  },
+  data: () => ({
+    show_description: false,
+    show_description_id: null,
+    isActive: false,
+    rating: 4.5,
+    films: []
+  }),
   async mounted () {
     const res = await fetch("http://localhost/api/films.php");
     let films = await res.json();
