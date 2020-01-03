@@ -7,13 +7,15 @@
         prepend-inner-icon="mdi-magnify"
         solo-inverted
         append-icon="mdi-dots-vertical"
+        v-model="query"
+        @input="search()"
       >
       </v-text-field>
 
     <v-layout row wrap>
       
 
-      <v-flex xs12 sm4 md3 lg2 v-for="film in films" :key="film.id">
+      <v-flex xs12 sm4 md3 lg2 v-for="film in films_show" :key="film.id">
         <v-card raised class="text-xs-center ma-3">
           <router-link :to="'/film?id=' + film.id">
             <v-img :src="getImgUrl(film.url_pic)" height="200px"></v-img>
@@ -72,38 +74,61 @@
 
 <script>
 
+ // async function getFilms(query) {
+  //  let films = await fetch("http://localhost/api/films.php?query=" + encodeURIComponent(query));
+   // films = await films.json();
+  //for (let i in films) {
+    //this.films[i].title = this.films[i].title.replace(/\(\d+\)/g, '')
+  //  films[i].title = films[i].title.substring(0, 23)
+  //}
+  //    return films
+ // }
+
 export default {
   name: 'Films',
   data: () => ({
     show_description: false,
     show_description_id: null,
-    isActive: false,
+    query: "",
+
     rating: 4.5,
-    films: []
+
+    films_all: [],
+    films_show: []
   }),
   async mounted () {
-    const res = await fetch("http://localhost/api/films.php");
-    let films = await res.json();
-    this.films = films[0];
-    //this.films = [{"id":"1","title":"Toy Story (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?Toy%20Story%20(1995)","url_pic":"MV5BMTgwMjI4MzU5N15BMl5BanBnXkFtZTcwMTMyNTk3OA@@._V1_SX300.jpg","desc":"A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room."},{"id":"2","title":"GoldenEye (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?GoldenEye%20(1995)","url_pic":"MV5BMzk2OTg4MTk1NF5BMl5BanBnXkFtZTcwNjExNTgzNA@@._V1_SX300.jpg","desc":"James Bond teams up with the lone survivor of a destroyed Russian research center to stop the hijacking of a nuclear space weapon by a fellow agent believed to be dead."},{"id":"3","title":"Four Rooms (1995)","date":"1995-01-01","url_imdb":"http://us.imdb.com/M/title-exact?Four%20Rooms%20(1995)","url_pic":"MV5BMTQwOTMzNjA0Nl5BMl5BanBnXkFtZTcwMjgzNTUyMQ@@._V1_SX300.jpg","desc":"Four interlocking tales that take place in a fading hotel on New Year's Eve."}]
-    // mas de 25 caracters, poner "..."
-    // Regex that removes the date from the title
-    for (let i in this.films) {
-      //this.films[i].title = this.films[i].title.replace(/\(\d+\)/g, '')
-      //if (i > 10) this.films.pop();
-      //this.films[i].date = this.films[i].date.match('d+')
-      this.films[i].title = this.films[i].title.substring(0, 23)
-    }
-
+    //this.films_all = await getFilms("")
+    let films = await fetch("http://localhost/api/films.php");
+    films = await films.json();
+    this.films_all = films;
+    for (let i in this.films_all) {
+      this.films_all[i].title = this.films_all[i].title.substring(0, 23)
+      if (i < 50) this.films_show.push(this.films_all[i])
+    } 
   },
   methods: {
     getImgUrl(image) {
       try {
         return require('../images/films/' + image)
       } catch (e) {
-          e.name
+          return require("../images/placeholders/placehoder_film.jpg")
       }
     },
+    async search(test) {
+      // eslint-disable-next-line no-console
+      console.log(test)
+      this.films_show = []
+      let count = 0
+      for (let film of this.films_all) {
+        if (film.title.toLowerCase().indexOf(this.query) != -1) {
+          // eslint-disable-next-line no-console
+          if (count < 50) {
+            this.films_show.push(film)
+            count ++
+          }
+        }
+      }
+    }
   }
 };
 </script>
