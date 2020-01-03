@@ -60,7 +60,7 @@
       hint="What do you think about this film? Let everybody know in the comments!"
       name="input-7-4"
       label="Write a comment"
-      value=""
+      value=" "
       counter
       :rules="rules"
       v-model="new_comment"
@@ -117,7 +117,7 @@ export default {
         try {
           return require('../images/profiles/' + image)
         } catch (e) {
-            return "https://pixy.org/src/476/4764586.png";
+          return require("../images/placeholders/placehoder_profile.png")
         }
     },
   }

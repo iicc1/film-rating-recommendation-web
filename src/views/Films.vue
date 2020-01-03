@@ -66,23 +66,14 @@
             </div>
           </v-expand-transition>
         </v-card>
-        
      </v-flex>
+     
     </v-layout>
+    <v-btn block @click="loadMore()" v-if="query==''" style="margin-top: 15px">LOAD MORE</v-btn>
   </v-container>
 </template>
 
 <script>
-
- // async function getFilms(query) {
-  //  let films = await fetch("http://localhost/api/films.php?query=" + encodeURIComponent(query));
-   // films = await films.json();
-  //for (let i in films) {
-    //this.films[i].title = this.films[i].title.replace(/\(\d+\)/g, '')
-  //  films[i].title = films[i].title.substring(0, 23)
-  //}
-  //    return films
- // }
 
 export default {
   name: 'Films',
@@ -97,13 +88,12 @@ export default {
     films_show: []
   }),
   async mounted () {
-    //this.films_all = await getFilms("")
     let films = await fetch("http://localhost/api/films.php");
     films = await films.json();
     this.films_all = films;
     for (let i in this.films_all) {
       this.films_all[i].title = this.films_all[i].title.substring(0, 23)
-      if (i < 50) this.films_show.push(this.films_all[i])
+      if (i < 54) this.films_show.push(this.films_all[i])
     } 
   },
   methods: {
@@ -114,18 +104,25 @@ export default {
           return require("../images/placeholders/placehoder_film.jpg")
       }
     },
-    async search(test) {
-      // eslint-disable-next-line no-console
-      console.log(test)
+    async search() {
       this.films_show = []
       let count = 0
       for (let film of this.films_all) {
         if (film.title.toLowerCase().indexOf(this.query) != -1) {
-          // eslint-disable-next-line no-console
-          if (count < 50) {
+          if (count < 54) {
             this.films_show.push(film)
             count ++
           }
+        }
+      }
+    },
+    async loadMore() {
+      this.films_show.length
+      let count = 0
+      for (let i in this.films_all) {
+        if (i > this.films_show.length && count < 54) {
+          this.films_show.push(this.films_all[i])
+          count++
         }
       }
     }
