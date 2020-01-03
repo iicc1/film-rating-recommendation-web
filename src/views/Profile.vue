@@ -57,7 +57,7 @@
                 ></v-file-input>
               </v-col>
               <v-col cols="12">
-                <v-btn block color="blue darken-1" text @click="update(),upload()">Update profile</v-btn>
+                <v-btn block @click="update(),upload()">Update profile</v-btn>
               </v-col>
             </v-row>
           </v-container>
