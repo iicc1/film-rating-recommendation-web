@@ -69,7 +69,7 @@
      </v-flex>
      
     </v-layout>
-    <v-btn block @click="loadMore()" v-if="query==''" style="margin-top: 15px">LOAD MORE</v-btn>
+    <v-btn block @click="loadMore()" v-if="query=='' && showButton" style="margin-top: 15px">LOAD MORE</v-btn>
   </v-container>
 </template>
 
@@ -78,6 +78,7 @@
 export default {
   name: 'Films',
   data: () => ({
+    showButton: false,
     show_description: false,
     show_description_id: null,
     query: "",
@@ -94,7 +95,9 @@ export default {
     for (let i in this.films_all) {
       this.films_all[i].title = this.films_all[i].title.substring(0, 23)
       if (i < 54) this.films_show.push(this.films_all[i])
-    } 
+    }
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    this.showButton = true
   },
   methods: {
     getImgUrl(image) {
