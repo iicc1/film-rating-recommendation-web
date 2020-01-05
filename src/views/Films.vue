@@ -92,7 +92,7 @@ export default {
   data: () => ({
     showMenu: false,
     filters: [
-        { title: 'Sort by ascendent Bayesian ranking', id: 0 },
+        { title: 'Sort by ascendent Bayesian ranking (default)', id: 0 },
         { title: 'Sort by ascendent average rating', id: 1 },
         { title: 'Sort by ascendent rating count', id: 2 },
         { title: 'Sort by ascendent alphabetic order', id: 3 },

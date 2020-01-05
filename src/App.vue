@@ -2,11 +2,8 @@
   <v-app>
     <v-navigation-drawer
       clipped
-      floating
-      mini-variant
-      permanent
+      v-model="drawer"
       app
-      overflow
     >
       <v-list dense> 
         <v-list-item link to='/'>
@@ -46,16 +43,13 @@
 
     <v-app-bar
       app
-      color="black"
       clipped-left
       dark
     >
-      <v-toolbar-title style="text-decoration: none;">
-        <router-link text to="/" style="text-decoration:none;color:white">
-          <v-icon>mdi-video-vintage</v-icon>
-          Film Rating Recommendation 
-        </router-link>
-      </v-toolbar-title>
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
+    <router-link text to="/" style="text-decoration:none;color:white">
+      <v-toolbar-title>Film Rating Recommendation </v-toolbar-title>
+    </router-link>
       
       <v-col class="text-right font-weight-medium">
         <v-btn text icon @click.stop="login_form_show=true" style="margin-right:20px">
@@ -204,8 +198,9 @@ export default {
       snackbar_icon: null,
 
       genders: ['Male', 'Female'],
-      occupations: ['administrator','artist','doctor','educator','engineer','entertainment','executive','healthcare','homemaker','lawyer','librarian','marketing','none','other','programmer','retired','salesman','scientist','student','technician','writer']
+      occupations: ['administrator','artist','doctor','educator','engineer','entertainment','executive','healthcare','homemaker','lawyer','librarian','marketing','none','other','programmer','retired','salesman','scientist','student','technician','writer'],
       
+      drawer: null
     }),
     created () {
       this.$vuetify.theme.dark = true

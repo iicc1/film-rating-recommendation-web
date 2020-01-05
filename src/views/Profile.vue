@@ -63,6 +63,15 @@
           </v-container>
         </v-card-text>
       </v-card>
+
+      <v-snackbar
+      v-model="snackbar_show"
+      color="success"
+      top
+    >
+    <v-icon>mdi-check</v-icon> 
+      Profile updated succesfully
+    </v-snackbar>
   
 
   </v-container>
@@ -71,6 +80,7 @@
 <script>
   export default {
     data: () => ({
+      snackbar_show: false,
       rules: [
         value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
       ],
@@ -116,6 +126,7 @@
         res = await res.json();
         // eslint-disable-next-line no-console
         console.log(res)
+        this.snackbar_show = true
       },
       async upload() {
         if (this.profile_form_pic_file != null) {
