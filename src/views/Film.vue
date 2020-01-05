@@ -37,6 +37,22 @@
       </template>
     </v-row>
 
+    <v-row align="center" class="mx-0" style="background-color:#424242;margin-top: 20px">
+        <div style="margin-left:15px; color: rgba(255, 255, 255, 0.7); font-size: 0.875rem;">RATE THIS FILM</div>
+        <v-spacer></v-spacer>
+        <v-rating   
+          style="margin-left:-20px"
+          color="purple"
+          background-color="purple lighten-1"
+          half-increments
+          size="50"
+          hover
+          v-model="new_film_rating"
+          @input="voteFilm()"
+        ></v-rating>
+        <v-spacer></v-spacer>
+    </v-row>
+
     <v-row style="margin-top: 20px">
       <v-col>
         <v-list>
@@ -67,14 +83,24 @@
     ></v-textarea>
     
     <v-btn block @click="publishComment()">PUBLISH COMMENT</v-btn>
+
+  <v-snackbar
+      v-model="snackbar_show"
+      color="success"
+      top
+    >
+    <v-icon>mdi-check</v-icon> 
+      Film voted succesfully with a score of {{ this.new_film_rating }}
+    </v-snackbar>
   </v-container>
 </template>
-
 <script>
 
 export default {
   name: 'Film',
   data: () => ({
+    snackbar_show: false,
+    new_film_rating: 0,
     film_id: null,
     film_data: [],
     film_comments: [],
@@ -120,6 +146,13 @@ export default {
           return require("../images/placeholders/placehoder_profile.png")
         }
     },
+    async voteFilm() {
+      this.snackbar_show = true
+      await fetch("http://localhost/api/rate.php?film_id=" + this.film_id + "&score=" + this.new_film_rating, {
+        credentials: 'include'
+      });
+      this.snackbar_show = true
+    }
   }
 };
 </script>

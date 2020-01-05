@@ -12,7 +12,8 @@
             v-model="query"
             @input="search()"
             @click:append="showMenu=!showMenu"
-          ></v-text-field>
+          >
+          </v-text-field>
        </template>
         <v-list>
           <v-list-item v-for="(item, index) in filters" :key="item.id" @click="sortFilms(index)" >
@@ -30,37 +31,39 @@
           </router-link>
 
           <v-card-title>
-            {{ film.title }}
+            <div class="title font-weight-medium">{{ film.title }}</div>
+            
           </v-card-title>
           <v-card-subtitle>
-            <br>
-            <v-row>
-              <v-col style="margin: 8px">
-                {{ film.rating_avg_short }}
-            </v-col>
-              <v-col>
+            {{ film.genre }}
+          </v-card-subtitle>
+           <v-card-text>
+            <v-row align="center" class="mx-0">
               <v-rating
                 v-model="film.rating_avg"
-                background-color="purple lighten-3"
                 color="purple"
+                background-color="purple lighten-3"
+                dense
                 half-increments
-                hover
+                readonly
                 size="20"
               ></v-rating>
-            </v-col>
+              <div class="grey--text ml-4">{{ film.rating_avg_short }} ({{ film.rating_count }})</div>
             </v-row>
-          </v-card-subtitle>
+          </v-card-text>
 
           <v-card-actions>
-            <v-btn text>Explore</v-btn>
-            <v-btn color="purple" text link :href="film.url_imdb" target="_blank">
+            
+            <v-btn color="grey lighten-3" text link :href="film.url_imdb" target="_blank">
               IMDB
             </v-btn>
-
+            <router-link :to="'/film?id=' + film.id">
+              <v-btn color="grey lighten-3" text>VIEW</v-btn>
+            </router-link>
             <v-spacer></v-spacer>
 
             <v-btn icon @click="show_description=!show_description; show_description_id=film.id">
-              <v-icon>{{ show_description && show_description_id==film.id ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+              <v-icon color="purple">{{ show_description && show_description_id==film.id ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             </v-btn>
 
           </v-card-actions>
@@ -69,6 +72,7 @@
               <v-divider></v-divider>
               <v-card-text>
                 {{ film.desc }}
+                <br/><br/>
                 Premiere: {{ film.date }}
               </v-card-text>
             </div>
@@ -105,15 +109,14 @@ export default {
     show_description_id: null,
     query: "",
 
-    rating: 4.5,
-
     films_all: [],
     films_show: []
   }),
   async mounted() {
     let films = await fetch("http://localhost/api/films.php");
     films = await films.json();
-    this.films_all = films;
+    // Bayesian order by default
+    this.films_all = films.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian));
     for (let i in this.films_all) {
       this.films_all[i].title = this.films_all[i].title.substring(0, 23)
       if (i < 44) this.films_show.push(this.films_all[i])
@@ -164,11 +167,11 @@ export default {
           break;
         // Average
         case 1:
-          this.films_all.sort((a, b) => parseFloat(a.rating_avg) - parseFloat(b.rating_avg));
+          this.films_all.sort((a, b) => parseFloat(a.rating_avg) - parseFloat(b.rating_avg)).reverse();
           break;
         // Count
         case 2:
-          this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count));
+          this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count)).reverse();
           break;
         // Alphabetic
         case 3:
@@ -184,11 +187,11 @@ export default {
           break;
         // Average reversed
         case 6:
-          this.films_all.sort((a, b) => parseFloat(a.rating_avg) - parseFloat(b.rating_avg)).reverse();
+          this.films_all.sort((a, b) => parseFloat(a.rating_avg) - parseFloat(b.rating_avg));
           break;
         // Count reversed
         case 7:
-           this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count)).reverse();
+           this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count));
           break;
         // Alphabetic reversed
         case 8:
@@ -208,3 +211,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.v-input__icon--prepend-inner .v-icon { 
+    color: rgb(255, 255, 255);
+}
+</style>

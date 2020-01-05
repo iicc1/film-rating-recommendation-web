@@ -50,9 +50,11 @@
       clipped-left
       dark
     >
-      <v-toolbar-title>
-        <v-icon>mdi-video-vintage</v-icon>
-        Film Rating Recommendation 
+      <v-toolbar-title style="text-decoration: none;">
+        <router-link text to="/" style="text-decoration:none;color:white">
+          <v-icon>mdi-video-vintage</v-icon>
+          Film Rating Recommendation 
+        </router-link>
       </v-toolbar-title>
       
       <v-col class="text-right font-weight-medium">
@@ -86,8 +88,9 @@
           <small>* required field</small>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          
           <v-btn color="blue darken-1" text @click="login_form_show=false">Close</v-btn>
+          <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="login_form_show=false, register_form_show=true">Register</v-btn>
           <v-btn color="blue darken-1" text @click="login_form_show=false, login()">Login</v-btn>
         </v-card-actions>
@@ -145,9 +148,9 @@
           </v-container>
           <small>* required field</small>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
+        <v-card-actions>          
           <v-btn color="blue darken-1" text @click="register_form_show=false">CLOSE</v-btn>
+          <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="register_form_show=false, register()">REGISTER</v-btn>
         </v-card-actions>
       </v-card>
