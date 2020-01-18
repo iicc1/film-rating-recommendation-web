@@ -1,11 +1,11 @@
 <template>
-  <v-container class="ma-5 pa-5">
+  <v-container class="my-5">
     <v-row>
       <template>
         <v-col md="auto">
           <v-img :src="getFilmImgUrl(film_data.url_pic)" height="389px" width="389px" style="border-radius: 1%"></v-img>
         </v-col>
-        <v-col >
+        <v-col>
           <v-list>
             <v-subheader>FILM DATA</v-subheader>
             <v-list-item>
@@ -84,7 +84,7 @@
     
     <v-btn block @click="publishComment()">PUBLISH COMMENT</v-btn>
 
-  <v-snackbar
+    <v-snackbar
       v-model="snackbar_show"
       color="success"
       top
@@ -92,6 +92,16 @@
     <v-icon>mdi-check</v-icon> 
       Film voted succesfully with a score of {{ this.new_film_rating }}
     </v-snackbar>
+
+    <v-snackbar
+      v-model="snackbar_show_error"
+      color="error"
+      top
+    >
+    <v-icon>mdi-alert-circle</v-icon> 
+      Error: you must be logged to perform that action
+    </v-snackbar>
+
   </v-container>
 </template>
 <script>
@@ -100,13 +110,17 @@ export default {
   name: 'Film',
   data: () => ({
     snackbar_show: false,
+    snackbar_show_error: false,
+    // Film data
     new_film_rating: 0,
     film_id: null,
     film_data: [],
     film_comments: [],
     new_comment: null,
+    // Comment length limitation
     rules: [v => v.length <= 400 || 'Max 400 characters'],
   }),
+  // Function called when the virtual DOM has been mounted
   async created() {
     this.film_id = this.$route.query.id;
     let res = await fetch("http://localhost/api/film.php?id=" + this.film_id, {
@@ -115,23 +129,39 @@ export default {
     res = await res.json();
     this.film_data = res.movie;
     this.film_comments = res.comments;
-    // eslint-disable-next-line no-console
-    console.log(this.film_comments)
   },
   methods: {
+    // Tries to publish a new comment
     async publishComment() {
-      // eslint-disable-next-line no-console
-      console.log(this.new_comment)
       let res = await fetch("http://localhost/api/comment.php?film_id=" + this.film_id + "&comment=" + encodeURIComponent(this.new_comment), {
         credentials: 'include'
       });
       res = await res.json();
-      // eslint-disable-next-line no-console
-      console.log(res)
-      // if todo ok
-      this.new_comment = null;
-      window.location.reload()
+      if (res.status == false) {
+        // User not logged
+        this.snackbar_show_error = true;
+      } else {
+        // Comment success
+        this.new_comment = null;
+        window.location.reload()
+      }
     },
+    // Tries to place a new vote
+    async voteFilm() {
+      this.snackbar_show = true
+      let res = await fetch("http://localhost/api/rate.php?film_id=" + this.film_id + "&score=" + this.new_film_rating, {
+        credentials: 'include'
+      });
+      res = await res.json();
+      if (res.status == false) {
+        // User not logged in
+        this.snackbar_show_error = true;
+      } else {
+        // Vote success
+        this.snackbar_show = true
+      }
+    },
+    // Get film cover 
     getFilmImgUrl(image) {
         try {
           return require('../images/films/' + image)
@@ -139,6 +169,7 @@ export default {
             e.name
         }
     },
+    // Get user profile image for the comments 
     getProfileImgUrl(image) {
         try {
           return require('../images/profiles/' + image)
@@ -146,13 +177,6 @@ export default {
           return require("../images/placeholders/placehoder_profile.png")
         }
     },
-    async voteFilm() {
-      this.snackbar_show = true
-      await fetch("http://localhost/api/rate.php?film_id=" + this.film_id + "&score=" + this.new_film_rating, {
-        credentials: 'include'
-      });
-      this.snackbar_show = true
-    }
   }
 };
 </script>

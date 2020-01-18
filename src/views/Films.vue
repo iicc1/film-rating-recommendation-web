@@ -1,29 +1,27 @@
 <template>
-
   <v-container class="my-5">
     <v-menu offset-y v-model="showMenu" style="max-width: 400px">
-       <template v-slot:activator="{ on }">
+      <template>
         <v-text-field
-            hide-details
-            label="Search"
-            prepend-inner-icon="mdi-magnify"
-            solo-inverted
-            append-icon="mdi-dots-vertical"
-            v-model="query"
-            @input="search()"
-            @click:append="showMenu=!showMenu"
-          >
-          </v-text-field>
-       </template>
-        <v-list>
-          <v-list-item v-for="(item, index) in filters" :key="item.id" @click="sortFilms(index)" >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+          hide-details
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          solo-inverted
+          append-icon="mdi-dots-vertical"
+          v-model="query"
+          @input="search()"
+          @click:append="showMenu=!showMenu"
+        >
+        </v-text-field>
+      </template>
+      <v-list>
+        <v-list-item v-for="(item, index) in filters" :key="item.id" @click="sortFilms(index)" >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
 
     <v-layout row wrap>
-
       <v-flex xs12 sm4 md3 lg2 v-for="film in films_show" :key="film.id">
         <v-card raised class="text-xs-center ma-3">
           <router-link :to="'/film?id=' + film.id">
@@ -32,7 +30,6 @@
 
           <v-card-title>
             <div class="title font-weight-medium">{{ film.title }}</div>
-            
           </v-card-title>
           <v-card-subtitle>
             {{ film.genre }}
@@ -53,7 +50,6 @@
           </v-card-text>
 
           <v-card-actions>
-            
             <v-btn color="grey lighten-3" text link :href="film.url_imdb" target="_blank">
               IMDB
             </v-btn>
@@ -61,11 +57,9 @@
               <v-btn color="grey lighten-3" text>VIEW</v-btn>
             </router-link>
             <v-spacer></v-spacer>
-
             <v-btn icon @click="show_description=!show_description; show_description_id=film.id">
               <v-icon color="purple">{{ show_description && show_description_id==film.id ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
             </v-btn>
-
           </v-card-actions>
           <v-expand-transition>
             <div v-show="show_description && show_description_id==film.id">
@@ -79,7 +73,6 @@
           </v-expand-transition>
         </v-card>
      </v-flex>
-     
     </v-layout>
     <v-btn block @click="loadMore()" v-if="query=='' && showButton" style="margin-top: 15px">LOAD MORE</v-btn>
   </v-container>
@@ -103,35 +96,33 @@ export default {
         { title: 'Sort by descendent alphabetic order', id: 8 },
         { title: 'Sort by descendent premiere date', id: 9 },
       ],
-
     showButton: false,
     show_description: false,
     show_description_id: null,
     query: "",
-
+    // All films fetched from the DB
     films_all: [],
+    // Films that are actually sorted and rendered
     films_show: []
   }),
+  // Function called when the virtual DOM has been mounted
   async mounted() {
     let films = await fetch("http://localhost/api/films.php");
     films = await films.json();
     // Bayesian order by default
     this.films_all = films.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian));
     for (let i in this.films_all) {
+      // Removes the exceed of characters in long titles
       this.films_all[i].title = this.films_all[i].title.substring(0, 23)
+      // Renders the first 43 films by default
       if (i < 44) this.films_show.push(this.films_all[i])
     }
+    // Waits 1 second to show the "show more" button
     await new Promise(resolve => setTimeout(resolve, 1000));
     this.showButton = true
   },
   methods: {
-    getImgUrl(image) {
-      try {
-        return require('../images/films/' + image)
-      } catch (e) {
-          return require("../images/placeholders/placehoder_film.jpg")
-      }
-    },
+    // Real time search
     async search() {
       this.films_show = []
       let count = 0
@@ -144,6 +135,7 @@ export default {
         }
       }
     },
+    // Loads the next 43 films
     async loadMore() {
       this.films_show.length
       let count = 0
@@ -154,11 +146,7 @@ export default {
         }
       }
     },
-    async test(test) {
-     // ! showMenu,alert('fesf')
-     // eslint-disable-next-line no-console
-     console.log(test)
-    },
+    // Sorts the films depending on the order ID
     async sortFilms(order_id) {
       switch(order_id) {
         // Bayesian
@@ -206,7 +194,14 @@ export default {
       for (let i in this.films_all) {
         if (i < 44) this.films_show.push(this.films_all[i])
       }
-      //
+    },
+    // Gets cover image
+    getImgUrl(image) {
+      try {
+        return require('../images/films/' + image)
+      } catch (e) {
+          return require("../images/placeholders/placehoder_film.jpg")
+      }
     },
   }
 };

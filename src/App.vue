@@ -50,7 +50,6 @@
     <router-link text to="/" style="text-decoration:none;color:white">
       <v-toolbar-title>Film Rating Recommendation </v-toolbar-title>
     </router-link>
-      
       <v-col class="text-right font-weight-medium">
         <v-btn text icon @click.stop="login_form_show=true" style="margin-right:20px">
           <div style="margin-right:10px">
@@ -63,92 +62,91 @@
 
     <v-content>
       <v-dialog v-model="login_form_show" max-width="600px">
-      <v-card>
-        <v-card-title>
-          <v-icon>mdi-account</v-icon>
-          <span class="headline ml-3">Login</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field label="Name *" required clearable v-model="login_form_name"></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password *" type="password" required counter v-model="login_form_password"></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>* required field</small>
-        </v-card-text>
-        <v-card-actions>
-          
-          <v-btn color="blue darken-1" text @click="login_form_show=false">Close</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="login_form_show=false, register_form_show=true">Register</v-btn>
-          <v-btn color="blue darken-1" text @click="login_form_show=false, login()">Login</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+        <v-card>
+          <v-card-title>
+            <v-icon>mdi-account</v-icon>
+            <span class="headline ml-3">Login</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field label="Name *" required clearable v-model="login_form_name"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field label="Password *" type="password" required counter v-model="login_form_password"></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>* required field</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click="login_form_show=false">Close</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="login_form_show=false, register_form_show=true">Register</v-btn>
+            <v-btn color="blue darken-1" text @click="login_form_show=false, login()">Login</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-    <v-dialog v-model="register_form_show" max-width="600px">
-      <v-card>
-        <v-card-title>
-          <v-icon>mdi-account-plus</v-icon>
-          <span class="headline  ml-3">Register</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field label="Name *" required clearable v-model="register_form_name"></v-text-field>
-              </v-col>
-              <v-col cols="12" style="margin-bottom: -10px">
-                <v-slider
-                  color="purple"
-                  label="Age *"
-                  min="1"
-                  max="120"
-                  required
-                  thumb-label="always"
-                  v-model="register_form_age"
-                ></v-slider>
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  :items="genders"
-                  color="purple"
-                  label="Gender *"
-                  required
-                  v-model="register_form_gender"
-              ></v-select>
-              </v-col>
-              <v-col cols="12">
-                <v-select
-                  :items="occupations"
-                  color="purple"
-                  label="Occupation *"
-                  required
-                  v-model="register_form_occupation"
-              ></v-select>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password *" type="password" required counter v-model="register_form_password1"></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Repeat password *" type="password" required counter v-model="register_form_password2"></v-text-field>
-              </v-col>
-            </v-row>
-          </v-container>
-          <small>* required field</small>
-        </v-card-text>
-        <v-card-actions>          
-          <v-btn color="blue darken-1" text @click="register_form_show=false">CLOSE</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="register_form_show=false, register()">REGISTER</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      <v-dialog v-model="register_form_show" max-width="600px">
+        <v-card>
+          <v-card-title>
+            <v-icon>mdi-account-plus</v-icon>
+            <span class="headline  ml-3">Register</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field label="Name *" required clearable v-model="register_form_name"></v-text-field>
+                </v-col>
+                <v-col cols="12" style="margin-bottom: -10px">
+                  <v-slider
+                    color="purple"
+                    label="Age *"
+                    min="1"
+                    max="120"
+                    required
+                    thumb-label="always"
+                    v-model="register_form_age"
+                  ></v-slider>
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                    :items="genders"
+                    color="purple"
+                    label="Gender *"
+                    required
+                    v-model="register_form_gender"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                    :items="occupations"
+                    color="purple"
+                    label="Occupation *"
+                    required
+                    v-model="register_form_occupation"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field label="Password *" type="password" required counter v-model="register_form_password1"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field label="Repeat password *" type="password" required counter v-model="register_form_password2"></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+            <small>* required field</small>
+          </v-card-text>
+          <v-card-actions>          
+            <v-btn color="blue darken-1" text @click="register_form_show=false">CLOSE</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="register_form_show=false, register()">REGISTER</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <router-view/>
     </v-content>
     
@@ -158,20 +156,19 @@
     >
       <span class="white--text">&copy; Ignacio & José 2020</span>
     </v-footer>
+
     <v-snackbar
       v-model="snackbar_show"
       :color="snackbar_color"
       top
     >
-    <v-icon>{{ snackbar_icon }}</v-icon> 
-      {{ snackbar_text }}
+      <v-icon>{{ snackbar_icon }}</v-icon> 
+        {{ snackbar_text }}
     </v-snackbar>
   </v-app>
 </template>
 
 <script>
-// eslint-disable-next-line no-console
-
 export default {
   name: 'App',
     props: {
@@ -179,11 +176,12 @@ export default {
     },
     data: () => ({
       // Javascript can't watch for object properties changes
-      // thats why objects are not used here with two way binding
+      // thats why we avoid using objects here
+      // Login variables
       login_form_show: false,   
       login_form_name: null,
       login_form_password: null,  
-
+      // Register variables
       register_form_show: false,
       register_form_name: null,
       register_form_age: null,
@@ -191,21 +189,23 @@ export default {
       register_form_occupation: null,
       register_form_password1: null,
       register_form_password2: null,
-
+      // Snackbar
       snackbar_show: false,
       snackbar_color: null,
       snackbar_text: null,
       snackbar_icon: null,
-
+      // Fixed selection of genders & occupations
       genders: ['Male', 'Female'],
       occupations: ['administrator','artist','doctor','educator','engineer','entertainment','executive','healthcare','homemaker','lawyer','librarian','marketing','none','other','programmer','retired','salesman','scientist','student','technician','writer'],
-      
+      // Layout drawer
       drawer: null
     }),
+    // Function called when the virtual DOM has been mounted
     created () {
       this.$vuetify.theme.dark = true
     },
     methods: {
+      // Tries to log the user in
       async login() {
         let res = await fetch("http://localhost/api/login.php", {
         method: "POST",
@@ -226,7 +226,9 @@ export default {
         this.snackbar_icon = "mdi-alert-circle"
       }
       this.snackbar_show = true;
-    }, async register() {
+    }, 
+    // Tries to register a new user
+    async register() {
         let res = await fetch("http://localhost/api/register.php", {
         method: "POST",
         body: JSON.stringify({

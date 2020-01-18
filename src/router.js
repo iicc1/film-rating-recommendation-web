@@ -4,6 +4,7 @@ import Films from './views/Films.vue'
 import Film from './views/Film.vue'
 import Profile from './views/Profile.vue'
 import About from './views/About.vue'
+import Recommended from './views/Recommended.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/recommended',
+      name: 'recommended',
+      component: Recommended
     }
   ]
 })
