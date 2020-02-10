@@ -160,6 +160,10 @@ export default {
         // Vote success
         this.snackbar_show = true
       }
+      // Starts recommendation process in the server
+      fetch("http://localhost/matlabServerInvoker.php", {
+        credentials: 'include'
+      });
     },
     // Get film cover 
     getFilmImgUrl(image) {
