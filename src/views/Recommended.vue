@@ -1,7 +1,7 @@
 <template>
   <v-container class="my-5">
     <h1 style="margin-top:10px;margin-bottom:20px;color:#E0E0E0" class="text-center font-weight-bold">
-      According to your interests, you may like this films
+      According to your interests, you may like these films
     </h1>
     <v-layout row wrap>
       <v-flex xs12 sm4 md3 lg2 v-for="film in films" :key="film.id">
