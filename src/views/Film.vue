@@ -37,7 +37,7 @@
       </template>
     </v-row>
 
-    <v-row align="center" class="mx-0" style="background-color:#424242;margin-top: 20px">
+    <v-row align="center" class="mx-0" style="background-color:#1E1E1E;margin-top: 20px">
         <div style="margin-left:15px; color: rgba(255, 255, 255, 0.7); font-size: 0.875rem;">RATE THIS FILM</div>
         <v-spacer></v-spacer>
         <v-rating   

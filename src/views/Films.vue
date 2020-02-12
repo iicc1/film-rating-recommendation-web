@@ -1,7 +1,7 @@
 <template>
   <v-container class="my-5">
     <v-menu offset-y v-model="showMenu" style="max-width: 400px">
-      <template>
+      <template v-slot:activator="{ showMenu }">
         <v-text-field
           hide-details
           label="Search"
@@ -10,7 +10,7 @@
           append-icon="mdi-dots-vertical"
           v-model="query"
           @input="search()"
-          @click:append="showMenu=!showMenu"
+          @click:append="changeShowMenu()"
         >
         </v-text-field>
       </template>
@@ -203,6 +203,9 @@ export default {
           return require("../images/placeholders/placehoder_film.jpg")
       }
     },
+    changeShowMenu() {
+      this.showMenu = !this.showMenu
+    }
   }
 };
 </script>
