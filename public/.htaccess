@@ -1,8 +1,8 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /~ai23
-  RewriteRule ^~ai23/index\.html$ - [L]
+  RewriteBase /~ai23/video
+  RewriteRule ^~ai23/video/index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /~ai23/index.html [L]
+  RewriteRule . /~ai23/video/index.html [L]
 </IfModule>

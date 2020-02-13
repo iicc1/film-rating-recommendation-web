@@ -68,6 +68,8 @@
                 {{ film.desc }}
                 <br/><br/>
                 Premiere: {{ film.date }}
+                <br/><br/>
+                Bayesian rating: {{ film.rating_bayesian }}
               </v-card-text>
             </div>
           </v-expand-transition>
@@ -85,16 +87,16 @@ export default {
   data: () => ({
     showMenu: false,
     filters: [
-        { title: 'Sort by ascendent Bayesian ranking (default)', id: 0 },
-        { title: 'Sort by ascendent average rating', id: 1 },
-        { title: 'Sort by ascendent rating count', id: 2 },
-        { title: 'Sort by ascendent alphabetic order', id: 3 },
-        { title: 'Sort by ascendent premiere date', id: 4 },
-        { title: 'Sort by descendent Bayesian ranking', id: 5 },
-        { title: 'Sort by descendent average rating', id: 6 },
+        { title: 'Sort by descendent Bayesian ranking (default)', id: 5 },
+        { title: 'Sort by descendent average rating', id: 1 },
         { title: 'Sort by descendent rating count', id: 7 },
         { title: 'Sort by descendent alphabetic order', id: 8 },
         { title: 'Sort by descendent premiere date', id: 9 },
+        { title: 'Sort by ascendent Bayesian ranking', id: 0 },
+        { title: 'Sort by ascendent average rating', id: 6 },
+        { title: 'Sort by ascendent rating count', id: 2 },
+        { title: 'Sort by ascendent alphabetic order', id: 3 },
+        { title: 'Sort by ascendent premiere date', id: 4 },
       ],
     showButton: false,
     show_description: false,
@@ -110,7 +112,7 @@ export default {
     let films = await fetch("http://localhost/api/films.php");
     films = await films.json();
     // Bayesian order by default
-    this.films_all = films.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian));
+    this.films_all = films.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian)).reverse();
     for (let i in this.films_all) {
       // Removes the exceed of characters in long titles
       this.films_all[i].title = this.films_all[i].title.substring(0, 23)
@@ -151,7 +153,7 @@ export default {
       switch(order_id) {
         // Bayesian
         case 0: 
-          this.films_all.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian));
+          this.films_all.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian)).reverse();
           break;
         // Average
         case 1:
@@ -159,7 +161,7 @@ export default {
           break;
         // Count
         case 2:
-          this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count)).reverse();
+          this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count));
           break;
         // Alphabetic
         case 3:
@@ -171,7 +173,7 @@ export default {
           break;
         // Bayesian reversed
         case 5:
-          this.films_all.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian)).reverse();
+          this.films_all.sort((a, b) => parseFloat(a.rating_bayesian) - parseFloat(b.rating_bayesian));
           break;
         // Average reversed
         case 6:
@@ -179,7 +181,7 @@ export default {
           break;
         // Count reversed
         case 7:
-           this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count));
+           this.films_all.sort((a, b) => parseFloat(a.rating_count) - parseFloat(b.rating_count)).reverse();
           break;
         // Alphabetic reversed
         case 8:

@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title>
         <v-icon>mdi-account-edit</v-icon>
-        <span class="headline  ml-3">Edit profile</span>
+        <span class="headline  ml-3">Edit profile: {{ profile_form_name }}</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -42,7 +42,7 @@
               </v-col>
               <v-col cols="12">
                 <v-avatar size=150>
-                  <v-img :src="getImgUrl(profile_form_pic)"></v-img>
+                  <v-img :src="'http://labit601.upct.es/~ai23/video/img/' + profile_form_pic"></v-img>
                 </v-avatar>
                 <v-file-input
                   :rules="rules"
@@ -85,6 +85,7 @@
         value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
       ],
       // Profile variables
+      profile_form_name: null,
       profile_form_age: null,
       profile_form_gender: null,
       profile_form_occupation: null,
@@ -102,6 +103,7 @@
           credentials: 'include'
       })
       res = await res.json();
+      this.profile_form_name = res.name;
       this.profile_form_age = res.edad;
       this.profile_form_gender = res.sex;
       this.profile_form_occupation = res.ocupacion;

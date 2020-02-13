@@ -59,7 +59,7 @@
           <v-subheader>COMMENTS</v-subheader>
           <v-list-item v-for="comment in film_comments" :key="comment.comment_id">
             <v-list-item-avatar>
-              <v-img :src="getProfileImgUrl(comment.pic)"></v-img>
+              <v-img :src="'http://labit601.upct.es/~ai23/video/img/' + comment.pic"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ comment.name }}</v-list-item-title>
